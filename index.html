@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Responsive Navigation Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                GKTODAY
+            </div>
+            <input type="checkbox" id="click">
+            <label for="click" class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </label>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">New Launch</a></li>
+                <li><a href="index.html">Bollybood</a></li>
+                <li><a href="index.html">Holliwood</a></li>
+
+                <li><a href="#">South</a></li>
+               
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="left-menu">
+            <div class="cards">
+               
+                <img src="img1.jpg" alt="">
+             
+                <h1>Avengers Endgame 2019 Dub Full Movie 720p in Hindi  HD Download  </h1>
+            </div>
+
+            <!-- <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div>
+
+            <div class="cards">
+                <img src="img1.jpg" alt="">
+                <h1>adventures end games full movie download </h1>
+            </div> -->
+
+
+
+
+        </div>
+
+       
+
+    </main>
+
+
+
+
+
+
+    <footer>
+
+
+
+        <div class="copyright">
+
+            <span class="credit">Created By <a href=""> Mr Sujit Singh</a> | </span>
+            <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
+
+        </div>
+    </footer>
+
+
+
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $('.next').click(function () {
+                $('.pagenitions').find('.pagenumber.active').next().addClass('active');
+                $('.pagenitions').find('.pagenumber.active').prev().removeClass('active');
+
+            })
+
+
+            $('.prev').click(function () {
+                $('.pagenitions').find('.pagenumber.active').prev().addClass('active');
+                $('.pagenitions').find('.pagenumber.active').next().removeClass('active');
+            })
+
+
+        }
+        )
+
+
+    </script>
+</body>
+
+</html>

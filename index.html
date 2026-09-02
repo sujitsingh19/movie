@@ -1,147 +1,1640 @@
 <!DOCTYPE html>
-<!-- Created By CodingNepal -->
-<html lang="en" dir="ltr">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Responsive Navigation Menu</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProType - Professional Typing Speed Test</title>
+
+<meta name="description" content="ProType is a professional typing speed test with WPM, accuracy, score, auto scrolling and word-level validation.">
+
+<style>
+:root{
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#718096;
+    --border:#e5eaf1;
+    --primary:#2563eb;
+    --primary-light:#eff6ff;
+    --green:#16a34a;
+    --green-bg:#dcfce7;
+    --red:#dc2626;
+    --red-bg:#fee2e2;
+    --active:#2563eb;
+    --shadow:0 15px 45px rgba(15,23,42,.08);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+}
+
+body.dark{
+    --bg:#0b1120;
+    --card:#111827;
+    --text:#f1f5f9;
+    --muted:#94a3b8;
+    --border:#253047;
+    --primary:#60a5fa;
+    --primary-light:#172554;
+    --green:#4ade80;
+    --green-bg:#14532d;
+    --red:#f87171;
+    --red-bg:#7f1d1d;
+    --active:#60a5fa;
+    --shadow:0 15px 45px rgba(0,0,0,.25);
+}
+
+header{
+    height:72px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:var(--primary);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.best-small{
+    font-size:13px;
+    color:var(--muted);
+    padding:9px 13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+}
+
+.theme-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:35px auto 60px;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.hero h1{
+    font-size:clamp(28px,4vw,44px);
+    margin-bottom:8px;
+    letter-spacing:-1.5px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:15px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:15px;
+    padding:17px;
+    text-align:center;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    margin-bottom:7px;
+}
+
+.stat-value{
+    font-size:25px;
+    font-weight:800;
+}
+
+.test-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.controls{
+    padding:18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.duration-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.duration{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    padding:9px 15px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.2s;
+}
+
+.duration:hover{
+    border-color:var(--primary);
+}
+
+.duration.active{
+    background:var(--primary);
+    color:white;
+    border-color:var(--primary);
+}
+
+.action-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.action{
+    border:0;
+    padding:10px 16px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.restart{
+    background:var(--primary);
+    color:white;
+}
+
+.reset{
+    background:var(--primary-light);
+    color:var(--primary);
+}
+
+.passage-wrapper{
+    height:340px;
+    overflow:hidden;
+    position:relative;
+    padding:30px 32px;
+    background:var(--card);
+}
+
+.passage{
+    font-size:23px;
+    line-height:2.05;
+    font-weight:500;
+    letter-spacing:.2px;
+    height:100%;
+    overflow:hidden;
+    position:relative;
+    scroll-behavior:smooth;
+    padding-bottom:160px;
+}
+
+.word{
+    display:inline-block;
+    margin-right:9px;
+    padding:2px 4px;
+    border-radius:5px;
+    transition:.15s;
+}
+
+.word.active{
+    color:var(--active);
+    background:var(--primary-light);
+    box-shadow:0 0 0 2px rgba(37,99,235,.12);
+}
+
+.word.correct{
+    color:var(--green);
+    background:var(--green-bg);
+}
+
+.word.incorrect{
+    color:var(--red);
+    background:var(--red-bg);
+}
+
+.input-area{
+    padding:20px 25px;
+    border-top:1px solid var(--border);
+}
+
+.typing-input{
+    width:100%;
+    min-height:80px;
+    resize:none;
+    border:2px solid var(--border);
+    border-radius:13px;
+    padding:18px;
+    font-size:19px;
+    font-family:inherit;
+    outline:none;
+    background:var(--bg);
+    color:var(--text);
+    transition:.2s;
+}
+
+.typing-input:focus{
+    border-color:var(--primary);
+}
+
+.input-hint{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:8px;
+}
+
+.progress-container{
+    height:5px;
+    background:var(--border);
+}
+
+.progress{
+    height:100%;
+    width:0;
+    background:var(--primary);
+    transition:width .2s;
+}
+
+.result{
+    display:none;
+    margin-top:25px;
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:20px;
+    padding:30px;
+}
+
+.result.show{
+    display:block;
+    animation:fadeUp .4s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.result-title{
+    text-align:center;
+    font-size:27px;
+    margin-bottom:25px;
+}
+
+.big-result{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.big-wpm{
+    font-size:60px;
+    line-height:1;
+    font-weight:900;
+    color:var(--primary);
+}
+
+.big-wpm-label{
+    color:var(--muted);
+    margin-top:8px;
+}
+
+.result-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+}
+
+.result-item{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+
+.result-item span{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.result-item strong{
+    font-size:20px;
+}
+
+.performance{
+    text-align:center;
+    color:var(--muted);
+    margin:25px 0;
+}
+
+.result-action{
+    display:block;
+    margin:auto;
+    border:0;
+    background:var(--primary);
+    color:white;
+    padding:12px 25px;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin-top:30px;
+}
+
+@media(max-width:850px){
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .result-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    header{
+        padding:0 4%;
+    }
+
+    .best-small{
+        display:none;
+    }
+
+    .container{
+        width:94%;
+        margin-top:22px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats .stat:first-child{
+        grid-column:span 2;
+    }
+
+    .controls{
+        align-items:stretch;
+    }
+
+    .duration-buttons{
+        width:100%;
+    }
+
+    .duration{
+        flex:1;
+    }
+
+    .action-buttons{
+        width:100%;
+    }
+
+    .action{
+        flex:1;
+    }
+
+    .passage-wrapper{
+        height:300px;
+        padding:20px;
+    }
+
+    .passage{
+        font-size:18px;
+        line-height:2;
+    }
+
+    .input-area{
+        padding:15px;
+    }
+
+    .typing-input{
+        font-size:17px;
+    }
+
+    .big-wpm{
+        font-size:48px;
+    }
+}
+</style>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                GKTODAY
-            </div>
-            <input type="checkbox" id="click">
-            <label for="click" class="menu-btn">
-                <i class="fas fa-bars"></i>
-            </label>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="https://www.gkquiz.xyz/">New Launch</a></li>
-                <li><a href="index.html">Bollybood</a></li>
-                <li><a href="https://www.gkquiz.xyz/">Holliwood</a></li>
 
-                <li><a href="https://www.gkquiz.xyz/">South</a></li>
-               
-            </ul>
-        </nav>
-    </header>
+<header>
+    <div class="logo">Pro<span>Type</span></div>
 
-    <main>
+    <div class="header-right">
+        <div class="best-small">
+            Best: <strong id="headerBest">0 WPM</strong>
+        </div>
 
-        <div class="left-menu">
-            <div class="cards">
-               
-                <img src="img1.jpg" alt="">
-             
-                <h1>Avengers Endgame 2019 Dub Full Movie 720p in Hindi  HD Download  </h1>
-            </div>
+        <button class="theme-btn" id="themeBtn" title="Toggle Dark Mode">
+            🌙
+        </button>
+    </div>
+</header>
 
-            <!-- <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div>
+<main class="container">
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div>
+    <section class="hero">
+        <h1>Typing Speed Test</h1>
+        <p>Test your typing speed, accuracy and performance.</p>
+    </section>
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div>
+    <section class="stats">
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div>
+        <div class="stat">
+            <div class="stat-label">Time</div>
+            <div class="stat-value" id="timer">01:00</div>
+        </div>
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div>
+        <div class="stat">
+            <div class="stat-label">WPM</div>
+            <div class="stat-value" id="wpm">0</div>
+        </div>
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div>
+        <div class="stat">
+            <div class="stat-label">Accuracy</div>
+            <div class="stat-value" id="accuracy">100%</div>
+        </div>
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
+        <div class="stat">
+            <div class="stat-label">Score</div>
+            <div class="stat-value" id="score">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Errors</div>
+            <div class="stat-value" id="errors">0</div>
+        </div>
+
+    </section>
+
+    <section class="test-card">
+
+        <div class="controls">
+
+            <div class="duration-buttons">
+                <button class="duration active" data-time="60">1 Min</button>
+                <button class="duration" data-time="120">2 Min</button>
+                <button class="duration" data-time="300">5 Min</button>
+                <button class="duration" data-time="600">10 Min</button>
             </div>
 
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
+            <div class="action-buttons">
+                <button class="action restart" id="restartBtn">
+                    ↻ Restart
+                </button>
+
+                <button class="action reset" id="resetBtn">
+                    Reset
+                </button>
             </div>
-
-            <div class="cards">
-                <img src="img1.jpg" alt="">
-                <h1>adventures end games full movie download </h1>
-            </div> -->
-
-
-
 
         </div>
 
-       
+        <div class="passage-wrapper" id="passageWrapper">
+            <div class="passage" id="passage"></div>
+        </div>
 
-    </main>
+        <div class="input-area">
+            <textarea
+                id="typingInput"
+                class="typing-input"
+                placeholder="Start typing here..."
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+            ></textarea>
 
+            <div class="input-hint">
+                Type the complete word and press Space to continue.
+            </div>
+        </div>
 
+        <div class="progress-container">
+            <div class="progress" id="progress"></div>
+        </div>
 
+    </section>
 
+    <section class="result" id="result">
 
+        <h2 class="result-title">
+            🎉 Test Completed
+        </h2>
+
+        <div class="big-result">
+            <div class="big-wpm" id="finalWpm">0</div>
+            <div class="big-wpm-label">Words Per Minute</div>
+        </div>
+
+        <div class="result-grid">
+
+            <div class="result-item">
+                <span>Gross WPM</span>
+                <strong id="finalGross">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Net WPM</span>
+                <strong id="finalNet">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Accuracy</span>
+                <strong id="finalAccuracy">0%</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Final Score</span>
+                <strong id="finalScore">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Correct Words</span>
+                <strong id="finalCorrect">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Incorrect Words</span>
+                <strong id="finalIncorrect">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Total Words</span>
+                <strong id="finalTotal">0</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Errors</span>
+                <strong id="finalErrors">0</strong>
+            </div>
+
+        </div>
+
+        <div class="performance" id="performanceText">
+            Keep practicing to improve your typing speed.
+        </div>
+
+        <button class="result-action" id="tryAgain">
+            Try Again
+        </button>
+
+    </section>
 
     <footer>
-
-
-
-        <div class="copyright">
-
-            <span class="credit">Created By <a href=""> Mr Sujit Singh</a> | </span>
-            <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
-
-        </div>
+        ProType © 2026 • Professional Typing Speed Test
     </footer>
 
+</main>
+
+<script>
+
+/* =========================================================
+   LARGE WORD BANK
+   ========================================================= */
+
+const wordBankText = `
+about above accept across action activity actually address after again against
+age agency agent ago agree air allow almost alone along already also although
+always American amount analysis animal another answer any anyone anything appear
+apply area argue arm around arrive art article artist ask assume attack attention
+author available away baby back bad bag ball bank bar base basic beautiful because
+become bed before begin behavior behind believe benefit best better between beyond
+big bill billion bit black blood blue board body book born both box boy break bring
+brother budget build building business buy call camera campaign can cancer candidate
+capital car card care career carry case catch cause cell center central century certain
+chair challenge chance change character charge check child choice choose church city
+civil claim class clear close coach cold collection college color come commercial common
+community company compare computer concern condition conference Congress consider
+consumer contain continue control cost could country couple course court cover create
+crime cultural culture cup current customer cut data daughter day dead deal death decide
+decision deep defense degree Democrat describe design despite detail determine develop
+development difference difficult dinner direction director discover discuss discussion
+disease do doctor dog door down draw dream drive drop drug during each early east easy
+economic economy edge education effect effort eight either election else employee end energy
+enjoy enough enter entire environment especially establish even evening event ever every
+everybody everyone everything evidence example executive exist expect experience explain
+eye face fact factor fail family far fast father fear federal feel few field fight figure
+fill film final finally financial find fine fire firm first fish five floor fly focus follow
+food foot force foreign forget form former forward four free friend from front full fund
+future game garden gas general generation get girl give glass go goal good government great
+green ground group grow growth guess gun guy hair half hand happen happy hard have head
+health hear heart heavy help her here herself high him himself history hit hold home hope
+hospital hot hotel hour house how however human hundred idea identify if image imagine
+impact important improve include including increase indeed indicate individual industry
+information inside instead institution interest international interview into investment
+involve issue item job join just keep key kid kind kitchen know knowledge land language
+large last late later laugh law lawyer lay lead leader learn least leave left leg less let
+letter level life light like likely line list listen little live local long look lose loss
+lot love low machine magazine main maintain major majority make man manage management many
+market marriage material matter may maybe me mean measure media medical meet member memory
+mention message method middle might military million mind minute miss model modern moment money
+month more morning most mother move movement movie much music must my name nation national
+natural nature near necessary need never new news newspaper next nice night no none north
+not note nothing notice number occur offer office officer official often oil old once one
+only open operation opportunity option order organization other others outside over own owner
+page pain paper parent part particular party pass past patient pattern pay peace people
+per perhaps period person personal phone physical picture piece place plan plant play player
+point police policy political poor popular population position possible power practice prepare
+present president pressure pretty prevent price private probably problem process produce
+product production professional professor program project property protect prove provide public
+pull purpose push put quality question quickly quite race radio raise range rate rather reach
+read ready real reality realize really reason receive recent record red reduce reflect region
+relate relationship remain remember report represent require research resource response result
+return reveal rich right rise risk road rock role room rule run safe same save say school
+science score sea season second section security see seek seem sell send senior sense series
+serious serve service set seven several shake share she shoot short should show side sign
+similar simple since sing single sister sit site situation six size skill skin small smile
+social society soldier some someone something sometimes son soon sort sound source south
+space speak special specific speech spend sport spring staff stage stand standard start state
+statement station stay step still stock stop story strategy street strong structure student
+study subject success such suddenly suffer suggest summer support sure system table take talk
+task teach teacher team technology television tell ten tend term test than thank that the
+their them themselves then theory there these they thing think third this those though three
+through throughout throw thus time today together tonight too top total tough toward town
+trade training travel treat tree trial trip trouble true try turn two type under understand
+unit until up upon use usually value various very victim view visit voice wait walk wall want
+war watch water way we weapon week weight well west what when where whether which while white
+who whole whom whose why wide wife will win wind window wish with within without woman wonder
+word work worker world worry would write writer wrong year yes yet you young yourself
+your
+`;
+
+const wordBank = wordBankText
+    .trim()
+    .split(/\s+/);
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+let words = [];
+let currentWordIndex = 0;
+
+let correctWords = 0;
+let incorrectWords = 0;
+
+let correctCharacters = 0;
+let incorrectCharacters = 0;
+
+let totalTypedCharacters = 0;
+
+let selectedDuration = 60;
+let remainingTime = 60;
+
+let timerInterval = null;
+let startTime = null;
+let elapsedSeconds = 0;
+
+let testStarted = false;
+let testFinished = false;
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const passage = document.getElementById("passage");
+const typingInput = document.getElementById("typingInput");
+
+const timerEl = document.getElementById("timer");
+const wpmEl = document.getElementById("wpm");
+const accuracyEl = document.getElementById("accuracy");
+const scoreEl = document.getElementById("score");
+const errorsEl = document.getElementById("errors");
+
+const progressEl = document.getElementById("progress");
+
+const result = document.getElementById("result");
+
+const headerBest = document.getElementById("headerBest");
+
+const themeBtn = document.getElementById("themeBtn");
+
+/* =========================================================
+   RANDOM WORD GENERATOR
+   ========================================================= */
+
+function shuffleArray(array){
+
+    const copy = [...array];
+
+    for(let i = copy.length - 1; i > 0; i--){
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+
+    return copy;
+}
 
 
-    <script src="script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+function generateRandomWords(){
+
+    let generated = [];
+
+    while(generated.length < 1200){
+
+        const shuffled = shuffleArray(wordBank);
+
+        generated.push(...shuffled);
+    }
+
+    words = generated.slice(0, 1200);
+
+}
+
+/* =========================================================
+   RENDER PASSAGE
+   ========================================================= */
+
+function renderPassage(){
+
+    passage.innerHTML = "";
+
+    const fragment = document.createDocumentFragment();
+
+    words.forEach((word,index)=>{
+
+        const span = document.createElement("span");
+
+        span.className = "word";
+
+        span.textContent = word;
+
+        span.dataset.index = index;
+
+        fragment.appendChild(span);
+
+    });
+
+    passage.appendChild(fragment);
+
+    updateActiveWord();
+
+}
+
+/* =========================================================
+   ACTIVE WORD
+   ========================================================= */
+
+function updateActiveWord(){
+
+    document.querySelectorAll(".word.active").forEach(el=>{
+        el.classList.remove("active");
+    });
+
+    const current = document.querySelector(
+        `.word[data-index="${currentWordIndex}"]`
+    );
+
+    if(!current) return;
+
+    current.classList.add("active");
+
+    autoScrollToWord(current);
+
+}
+
+/* =========================================================
+   AUTO SCROLL
+   ========================================================= */
+
+function autoScrollToWord(element){
+
+    const passageRect = passage.getBoundingClientRect();
+    const wordRect = element.getBoundingClientRect();
+
+    const relativeTop =
+        wordRect.top - passageRect.top;
+
+    const desired =
+        passage.scrollTop +
+        relativeTop -
+        passage.clientHeight * 0.38;
+
+    passage.scrollTo({
+        top:Math.max(0,desired),
+        behavior:"smooth"
+    });
+
+}
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+function formatTime(seconds){
+
+    const minutes = Math.floor(seconds / 60);
+
+    const secs = seconds % 60;
+
+    return String(minutes).padStart(2,"0") +
+        ":" +
+        String(secs).padStart(2,"0");
+
+}
 
 
-    <script type="text/javascript">
-        $(document).ready(function () {
+function startTimer(){
 
+    if(timerInterval) return;
 
-            $('.next').click(function () {
-                $('.pagenitions').find('.pagenumber.active').next().addClass('active');
-                $('.pagenitions').find('.pagenumber.active').prev().removeClass('active');
+    startTime = Date.now();
 
-            })
+    timerInterval = setInterval(()=>{
 
+        elapsedSeconds =
+            Math.floor((Date.now() - startTime) / 1000);
 
-            $('.prev').click(function () {
-                $('.pagenitions').find('.pagenumber.active').prev().addClass('active');
-                $('.pagenitions').find('.pagenumber.active').next().removeClass('active');
-            })
+        remainingTime =
+            Math.max(0,selectedDuration - elapsedSeconds);
 
+        timerEl.textContent =
+            formatTime(remainingTime);
+
+        updateLiveStats();
+
+        if(remainingTime <= 0){
+
+            finishTest();
+        }
+
+    },250);
+
+}
+
+/* =========================================================
+   START TEST
+   ========================================================= */
+
+function startTest(){
+
+    generateRandomWords();
+
+    renderPassage();
+
+    currentWordIndex = 0;
+
+    correctWords = 0;
+    incorrectWords = 0;
+
+    correctCharacters = 0;
+    incorrectCharacters = 0;
+
+    totalTypedCharacters = 0;
+
+    elapsedSeconds = 0;
+    remainingTime = selectedDuration;
+
+    testStarted = false;
+    testFinished = false;
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+    timerEl.textContent =
+        formatTime(selectedDuration);
+
+    wpmEl.textContent = "0";
+
+    accuracyEl.textContent = "100%";
+
+    scoreEl.textContent = "0";
+
+    errorsEl.textContent = "0";
+
+    progressEl.style.width = "0%";
+
+    typingInput.value = "";
+
+    typingInput.disabled = false;
+
+    result.classList.remove("show");
+
+    updateActiveWord();
+
+    setTimeout(()=>{
+        typingInput.focus();
+    },100);
+
+}
+
+/* =========================================================
+   INPUT HANDLER
+   ========================================================= */
+
+typingInput.addEventListener("input",function(){
+
+    if(testFinished) return;
+
+    if(!testStarted){
+
+        testStarted = true;
+
+        startTimer();
+    }
+
+    const value = typingInput.value;
+
+    /*
+       IMPORTANT:
+       We only validate a word when the user presses SPACE.
+    */
+
+    if(value.includes(" ")){
+
+        const parts = value.split(/\s+/);
+
+        /*
+           The last element is the currently typed
+           incomplete word.
+        */
+
+        const completedWords = parts.slice(0,-1);
+
+        const remaining = parts[parts.length - 1];
+
+        if(completedWords.length > 0){
+
+            completedWords.forEach(word=>{
+
+                if(word === "") return;
+
+                completeCurrentWord(word);
+
+            });
 
         }
+
+        typingInput.value = remaining;
+
+    }
+
+    updateLiveStats();
+
+});
+
+
+/* =========================================================
+   COMPLETE WORD
+   ========================================================= */
+
+function completeCurrentWord(typedWord){
+
+    if(currentWordIndex >= words.length){
+
+        finishTest();
+
+        return;
+    }
+
+    const targetWord =
+        words[currentWordIndex];
+
+    const wordElement =
+        document.querySelector(
+            `.word[data-index="${currentWordIndex}"]`
+        );
+
+    const typed =
+        typedWord.trim();
+
+    /*
+       Exact complete-word comparison
+    */
+
+    if(typed === targetWord){
+
+        wordElement.classList.add("correct");
+
+        correctWords++;
+
+        correctCharacters += targetWord.length;
+
+    }else{
+
+        wordElement.classList.add("incorrect");
+
+        incorrectWords++;
+
+        /*
+           Calculate character accuracy using
+           character comparison.
+        */
+
+        let matches = 0;
+
+        const maxLength =
+            Math.max(typed.length,targetWord.length);
+
+        for(let i=0;i<Math.min(typed.length,targetWord.length);i++){
+
+            if(typed[i] === targetWord[i]){
+
+                matches++;
+            }
+        }
+
+        correctCharacters += matches;
+
+        incorrectCharacters +=
+            Math.max(0,maxLength - matches);
+
+    }
+
+    totalTypedCharacters += typed.length;
+
+    currentWordIndex++;
+
+    updateProgress();
+
+    updateActiveWord();
+
+}
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function updateProgress(){
+
+    const percentage =
+        (currentWordIndex / words.length) * 100;
+
+    progressEl.style.width =
+        percentage + "%";
+
+}
+
+/* =========================================================
+   LIVE STATS
+   ========================================================= */
+
+function updateLiveStats(){
+
+    let minutes =
+        elapsedSeconds / 60;
+
+    if(minutes <= 0){
+        minutes = 1/60;
+    }
+
+    /*
+       Standard WPM:
+       Correct characters / 5 / minutes
+    */
+
+    const grossWpm =
+        (totalTypedCharacters / 5) / minutes;
+
+    const netWpm =
+        Math.max(
+            0,
+            grossWpm -
+            (incorrectWords / minutes)
+        );
+
+    const accuracy =
+        totalTypedCharacters > 0
+        ?
+        (correctCharacters /
+        Math.max(
+            1,
+            correctCharacters +
+            incorrectCharacters
+        )) * 100
+        :
+        100;
+
+    const score =
+        calculateScore(
+            netWpm,
+            accuracy,
+            correctWords,
+            incorrectWords
+        );
+
+    wpmEl.textContent =
+        Math.round(netWpm);
+
+    accuracyEl.textContent =
+        Math.round(accuracy) + "%";
+
+    scoreEl.textContent =
+        score;
+
+    errorsEl.textContent =
+        incorrectWords;
+
+}
+
+/* =========================================================
+   SCORE
+   ========================================================= */
+
+function calculateScore(
+    wpm,
+    accuracy,
+    correct,
+    incorrect
+){
+
+    /*
+       Maximum score = 1000
+
+       WPM contribution = 500
+       Accuracy = 400
+       Error bonus = 100
+    */
+
+    const speedScore =
+        Math.min(500,wpm * 7);
+
+    const accuracyScore =
+        accuracy * 4;
+
+    const errorRatio =
+        correct + incorrect > 0
+        ?
+        correct / (correct + incorrect)
+        :
+        0;
+
+    const consistencyScore =
+        errorRatio * 100;
+
+    return Math.round(
+        Math.min(
+            1000,
+            speedScore +
+            accuracyScore +
+            consistencyScore
+        )
+    );
+
+}
+
+/* =========================================================
+   FINISH TEST
+   ========================================================= */
+
+function finishTest(){
+
+    if(testFinished) return;
+
+    testFinished = true;
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+    typingInput.disabled = true;
+
+    if(!startTime){
+
+        elapsedSeconds = 0;
+
+    }else{
+
+        elapsedSeconds =
+            Math.max(
+                1,
+                Math.floor(
+                    (Date.now() - startTime) / 1000
+                )
+            );
+
+    }
+
+    const minutes =
+        Math.max(
+            elapsedSeconds / 60,
+            1/60
+        );
+
+    const grossWpm =
+        (totalTypedCharacters / 5) / minutes;
+
+    const netWpm =
+        Math.max(
+            0,
+            grossWpm -
+            (incorrectWords / minutes)
+        );
+
+    const accuracy =
+        totalTypedCharacters > 0
+        ?
+        (correctCharacters /
+        Math.max(
+            1,
+            correctCharacters +
+            incorrectCharacters
+        )) * 100
+        :
+        100;
+
+    const finalScore =
+        calculateScore(
+            netWpm,
+            accuracy,
+            correctWords,
+            incorrectWords
+        );
+
+    document.getElementById("finalWpm")
+        .textContent =
+        Math.round(netWpm);
+
+    document.getElementById("finalGross")
+        .textContent =
+        Math.round(grossWpm);
+
+    document.getElementById("finalNet")
+        .textContent =
+        Math.round(netWpm);
+
+    document.getElementById("finalAccuracy")
+        .textContent =
+        Math.round(accuracy) + "%";
+
+    document.getElementById("finalScore")
+        .textContent =
+        finalScore;
+
+    document.getElementById("finalCorrect")
+        .textContent =
+        correctWords;
+
+    document.getElementById("finalIncorrect")
+        .textContent =
+        incorrectWords;
+
+    document.getElementById("finalTotal")
+        .textContent =
+        correctWords + incorrectWords;
+
+    document.getElementById("finalErrors")
+        .textContent =
+        incorrectWords;
+
+    let performance =
+        "Keep practicing to improve your typing speed.";
+
+    if(netWpm >= 80){
+        performance =
+            "🔥 Excellent! You are a very fast typist.";
+    }else if(netWpm >= 60){
+        performance =
+            "🚀 Great job! Your typing speed is excellent.";
+    }else if(netWpm >= 40){
+        performance =
+            "👏 Good work! Keep practicing to become faster.";
+    }else{
+        performance =
+            "💪 Keep practicing. Your speed will improve.";
+    }
+
+    document.getElementById("performanceText")
+        .textContent =
+        performance;
+
+    result.classList.add("show");
+
+    saveBestScore(netWpm,accuracy,finalScore);
+
+    result.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+}
+
+/* =========================================================
+   BEST SCORE
+   ========================================================= */
+
+function saveBestScore(wpm,accuracy,score){
+
+    const old =
+        JSON.parse(
+            localStorage.getItem("protypeBest") ||
+            "null"
+        );
+
+    const data = {
+
+        wpm:Math.max(
+            old?.wpm || 0,
+            Math.round(wpm)
+        ),
+
+        accuracy:Math.max(
+            old?.accuracy || 0,
+            Math.round(accuracy)
+        ),
+
+        score:Math.max(
+            old?.score || 0,
+            score
         )
 
+    };
 
-    </script>
+    localStorage.setItem(
+        "protypeBest",
+        JSON.stringify(data)
+    );
+
+    updateBestDisplay();
+
+}
+
+
+function updateBestDisplay(){
+
+    const data =
+        JSON.parse(
+            localStorage.getItem("protypeBest") ||
+            "null"
+        );
+
+    if(data){
+
+        headerBest.textContent =
+            data.wpm + " WPM";
+    }
+
+}
+
+/* =========================================================
+   DURATION BUTTONS
+   ========================================================= */
+
+document.querySelectorAll(".duration")
+.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        document.querySelectorAll(".duration")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        selectedDuration =
+            Number(button.dataset.time);
+
+        startTest();
+
+    });
+
+});
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+document.getElementById("restartBtn")
+.addEventListener("click",()=>{
+
+    startTest();
+
+});
+
+
+document.getElementById("resetBtn")
+.addEventListener("click",()=>{
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+    typingInput.value = "";
+
+    startTest();
+
+});
+
+
+document.getElementById("tryAgain")
+.addEventListener("click",()=>{
+
+    startTest();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+});
+
+/* =========================================================
+   SPACE / ENTER HANDLING
+   ========================================================= */
+
+typingInput.addEventListener("keydown",function(e){
+
+    if(testFinished) return;
+
+    /*
+       Enter also completes current word.
+    */
+
+    if(e.key === "Enter"){
+
+        e.preventDefault();
+
+        const word =
+            typingInput.value.trim();
+
+        if(word !== ""){
+
+            if(!testStarted){
+
+                testStarted = true;
+
+                startTimer();
+
+            }
+
+            completeCurrentWord(word);
+
+            typingInput.value = "";
+
+            updateLiveStats();
+
+        }
+
+    }
+
+});
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+function loadTheme(){
+
+    const saved =
+        localStorage.getItem("protypeTheme");
+
+    if(saved === "dark"){
+
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀️";
+
+    }else{
+
+        themeBtn.textContent = "🌙";
+
+    }
+
+}
+
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "protypeTheme",
+        dark ? "dark" : "light"
+    );
+
+    themeBtn.textContent =
+        dark ? "☀️" : "🌙";
+
+});
+
+/* =========================================================
+   PREVENT ACCIDENTAL PAGE SCROLL
+   ========================================================= */
+
+typingInput.addEventListener("keydown",function(e){
+
+    if(
+        e.key === " " ||
+        e.key === "ArrowUp" ||
+        e.key === "ArrowDown"
+    ){
+
+        /*
+           Space is used for word completion.
+        */
+
+        if(e.key === " "){
+            e.preventDefault();
+
+            const word =
+                typingInput.value.trim();
+
+            if(word !== ""){
+
+                completeCurrentWord(word);
+
+                typingInput.value = "";
+
+                updateLiveStats();
+
+            }
+
+        }
+
+    }
+
+});
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+loadTheme();
+
+updateBestDisplay();
+
+startTest();
+
+</script>
+
 </body>
-
 </html>
